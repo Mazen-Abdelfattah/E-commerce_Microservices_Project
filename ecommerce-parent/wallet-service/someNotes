@@ -7,3 +7,5 @@
 - No one can access another person's wallet/transactions
 
 - API Documentation via http://localhost:8080/swagger-ui.html
+
+- You can connect to MySQL via: docker exec -it mysql-wallet mysql -u wallet_user -p

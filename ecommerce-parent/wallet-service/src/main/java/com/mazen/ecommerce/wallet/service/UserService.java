@@ -8,6 +8,7 @@ import com.mazen.ecommerce.wallet.model.User;
 import com.mazen.ecommerce.wallet.model.Wallet;
 import com.mazen.ecommerce.wallet.model.enums.Role;
 import com.mazen.ecommerce.wallet.repository.UserRepository;
+import com.mazen.ecommerce.wallet.repository.WalletRepository;
 import com.mazen.ecommerce.wallet.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtService;
 
@@ -45,7 +47,8 @@ public class UserService {
                 .user(user)
                 .balance(BigDecimal.ZERO)
                 .build();
-        user.getWallets().add(wallet);
+
+        if(walletRepository.existsById(wallet.getId()))user.getWallets().add(wallet);
 
         User saved = userRepository.save(user);
 
