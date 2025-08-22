@@ -1,0 +1,9 @@
+- The Admin can only be created by separate endPoints for admins only
+
+- There is a default admin u can use to add more admins if there is only 1
+
+- The default admin: admin@ecom.com / admin123
+
+- No one can access another person's wallet/transactions
+
+- API Documentation via http://localhost:8080/swagger-ui.html
