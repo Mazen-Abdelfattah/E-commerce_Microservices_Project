@@ -23,6 +23,7 @@
 	</developers>
 	<modules>
 		<module>wallet-service</module>
+		<module>inventory-service</module>
 	</modules>
 	<scm>
 		<connection/>
