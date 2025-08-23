@@ -19,14 +19,14 @@ public class TransactionController {
 
     @PostMapping("/{walletId}/deposit")
     private ResponseEntity<TransactionResponse> deposit(@PathVariable Long walletId,
-                                                        @Valid @RequestParam CreateTransactionRequest request){
+                                                        @Valid @RequestBody CreateTransactionRequest request){
 
         return ResponseEntity.ok(transactionService.deposit(walletId,request));
     }
 
     @PostMapping("/{walletId}/withdraw")
     private ResponseEntity<TransactionResponse> withdraw(@PathVariable Long walletId,
-                                                        @Valid @RequestParam CreateTransactionRequest request){
+                                                        @Valid @RequestBody CreateTransactionRequest request){
 
         return ResponseEntity.ok(transactionService.withdraw(walletId,request));
     }

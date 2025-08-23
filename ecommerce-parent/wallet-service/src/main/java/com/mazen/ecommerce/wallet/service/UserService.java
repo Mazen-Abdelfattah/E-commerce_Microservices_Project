@@ -42,13 +42,6 @@ public class UserService {
                 .role(role)
                 .build();
 
-        // Optional: create a default wallet
-        Wallet wallet = Wallet.builder()
-                .user(user)
-                .balance(BigDecimal.ZERO)
-                .build();
-
-        if(walletRepository.existsById(wallet.getId()))user.getWallets().add(wallet);
 
         User saved = userRepository.save(user);
 

@@ -33,9 +33,19 @@ public class Wallet {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(nullable = false)
-    private String walletName = "Main Wallet";
+    private String walletName;
 
     @Column(nullable = false, length = 50)
     private String walletType;  // e.g., savings, spending, business, crypto, ...
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
+        if (this.balance == null) {
+            this.balance = BigDecimal.ZERO;
+        }
+    }
 }
 

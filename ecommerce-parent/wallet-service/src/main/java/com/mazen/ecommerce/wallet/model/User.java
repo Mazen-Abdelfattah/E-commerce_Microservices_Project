@@ -1,12 +1,14 @@
 package com.mazen.ecommerce.wallet.model;
 
 import com.mazen.ecommerce.wallet.model.enums.Role;
+import com.mazen.ecommerce.wallet.repository.WalletRepository;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -37,10 +39,17 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Wallet> wallets;
+    private List<Wallet> wallets = new ArrayList<>();
 
     private LocalDateTime createdAt = LocalDateTime.now();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Transaction> transactions;
+
+    public void addWallet(Wallet wallet) {
+        if (this.wallets == null) {
+            this.wallets = new ArrayList<>();
+        }
+        wallets.add(wallet);
+    }
 }

@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
 
     public TransactionResponse deposit(Long walletId, CreateTransactionRequest request) {
-        Wallet wallet = walletRepository.findByIdForUpdate(walletId)
+        Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
         String currentUser = SecurityUtils.getCurrentUserEmail();
@@ -40,13 +41,14 @@ public class TransactionService {
                 .wallet(wallet)
                 .type(TransactionType.DEPOSIT)
                 .amount(request.getAmount())
+                .timestamp(LocalDateTime.now())
                 .build();
 
         return toResponse(transactionRepository.save(transaction));
     }
 
     public TransactionResponse withdraw(Long walletId, CreateTransactionRequest request) {
-        Wallet wallet = walletRepository.findByIdForUpdate(walletId)
+        Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
         String currentUser = SecurityUtils.getCurrentUserEmail();
@@ -67,6 +69,7 @@ public class TransactionService {
                 .wallet(wallet)
                 .type(TransactionType.WITHDRAW)
                 .amount(request.getAmount())
+                .timestamp(LocalDateTime.now())
                 .build();
 
         return toResponse(transactionRepository.save(transaction));

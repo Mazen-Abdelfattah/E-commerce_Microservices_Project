@@ -33,6 +33,10 @@ public class WalletService {
                 .balance(BigDecimal.ZERO)
                 .build();
 
+        System.out.println("Received REQUEST walletName = " + request.getWalletName());
+        System.out.println("Received WALLET walletName = " + wallet.getWalletName());
+
+
         Wallet saved = walletRepository.save(wallet);
         return toResponse(saved);
     }
@@ -47,7 +51,7 @@ public class WalletService {
             throw new SecurityException("You are not allowed to view these wallets");
         }
 
-        return walletRepository.findByUserId(userId).stream()
+        return walletRepository.findWalletsByUserId(userId).stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
@@ -81,6 +85,7 @@ public class WalletService {
         return WalletResponse.builder()
                 .id(wallet.getId())
                 .walletType(wallet.getWalletType())
+                .walletName(wallet.getWalletName())
                 .balance(wallet.getBalance())
                 .createdAt(wallet.getCreatedAt())
                 .build();
