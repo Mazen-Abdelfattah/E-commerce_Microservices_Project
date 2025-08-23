@@ -1,0 +1,8 @@
+Validation – add @NotBlank, @Positive etc. in DTOs so you don’t save invalid products.
+
+Error handling – e.g. @ControllerAdvice for clean error JSON.
+
+Pagination – when listing products, use Pageable instead of returning all at once.
+
+Auth (optional) – for now it’s open, but later you may want only ADMIN/SHOP service to create or delete products.
+
