@@ -1,9 +1,11 @@
 package com.mazen.ecommerce.shop.dto.cart;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 
+@Builder
 @Data
 public class CartItemResponse {
     private Long id;

@@ -24,11 +24,13 @@ public class Payment {
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
+    @Column(nullable = false)
     private BigDecimal amount; //It is there because sometimes the amount paid may differ from 'order.totalAmount' (eg discount, coupon, etc..)
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status = PaymentStatus.PENDING;
 
     private String transactionId; // from wallet-service
+
     private LocalDateTime createdAt = LocalDateTime.now();
 }

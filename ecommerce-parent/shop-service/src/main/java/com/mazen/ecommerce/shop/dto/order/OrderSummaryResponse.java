@@ -1,7 +1,7 @@
 package com.mazen.ecommerce.shop.dto.order;
 
-import com.mazen.ecommerce.shop.dto.payment.PaymentResponse;
 import com.mazen.ecommerce.shop.model.enums.OrderStatus;
+import com.mazen.ecommerce.shop.model.enums.PaymentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,19 +9,24 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderResponse {
+public class OrderSummaryResponse {
+    // Lightweight version for order lists
     private Long id;
-    private Long userId;
     private BigDecimal totalAmount;
     private OrderStatus status;
-    private PaymentResponse payment;
-    private LocalDateTime createdAt;
-    private List<OrderItemResponse> orderItems;
     private Integer totalItems;
+    private LocalDateTime createdAt;
+    private PaymentStatus paymentStatus;
+
+    /*
+     It is just without:
+        userId
+        payment
+        orderItems
+     */
 }
