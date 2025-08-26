@@ -1,0 +1,5 @@
+1. Making authorization and authentication through API Gateway
+
+2. Remove the comments in TransactionService, WalletService, and SecurityConfig in wallet-service
+
+3. Make ALL services use token to get the userId instead of sending it

@@ -29,10 +29,10 @@ public class TransactionService {
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
         String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !wallet.getUser().getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to deposit into this wallet");
-        }
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !wallet.getUser().getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to deposit into this wallet");
+//        }
 
         wallet.setBalance(wallet.getBalance().add(request.getAmount()));
         walletRepository.save(wallet);
@@ -51,11 +51,11 @@ public class TransactionService {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
-        String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !wallet.getUser().getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to withdraw from this wallet");
-        }
+//        String currentUser = SecurityUtils.getCurrentUserEmail();
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !wallet.getUser().getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to withdraw from this wallet");
+//        }
 
         BigDecimal newBalance = wallet.getBalance().subtract(request.getAmount());
         if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
@@ -79,11 +79,11 @@ public class TransactionService {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
-        String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !wallet.getUser().getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to view this wallet's transactions");
-        }
+//        String currentUser = SecurityUtils.getCurrentUserEmail();
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !wallet.getUser().getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to view this wallet's transactions");
+//        }
 
         return transactionRepository.findByWalletIdOrderByTimestampDesc(walletId, pageable)
                 .map(this::toResponse);

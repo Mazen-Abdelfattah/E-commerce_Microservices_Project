@@ -6,3 +6,4 @@ Pagination – when listing products, use Pageable instead of returning all at o
 
 Auth (optional) – for now it’s open, but later you may want only ADMIN/SHOP service to create or delete products.
 
+Maybe U can make it post List<Product> instead of a single one

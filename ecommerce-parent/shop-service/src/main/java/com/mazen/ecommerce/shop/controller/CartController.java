@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/users") //Will be changed after making the API Gateway
+@RequestMapping("/api/users") //TODO Will be changed after making the API Gateway
 public class CartController {
 
     private final CartService cartService;

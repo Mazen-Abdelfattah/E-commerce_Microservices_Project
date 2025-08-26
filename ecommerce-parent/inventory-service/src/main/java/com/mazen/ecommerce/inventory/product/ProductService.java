@@ -5,6 +5,7 @@ import com.mazen.ecommerce.inventory.product.dto.ProductRequest;
 import com.mazen.ecommerce.inventory.product.dto.ProductResponse;
 import com.mazen.ecommerce.inventory.product.dto.UpdateProductRequest;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,4 +80,33 @@ public class ProductService {
                 .build();
     }
 
+
+    public boolean isInStock(String sku, int quantity) {
+        Product product = productRepository.findBySku(sku)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + sku));
+        return product.getStockQuantity() >= quantity;
+    }
+
+    @Transactional
+    public void decreaseStock(String sku, int quantity) {
+        Product product = productRepository.findBySku(sku)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + sku));
+
+        if (product.getStockQuantity() < quantity) {
+            throw new IllegalStateException("Not enough stock for product: " + sku);
+        }
+
+        product.setStockQuantity(product.getStockQuantity() - quantity);
+        productRepository.save(product);
+    }
+
+
+    @Transactional
+    public void increaseStock(String sku, int quantity) {
+        Product product = productRepository.findBySku(sku)
+                .orElseThrow(() -> new EntityNotFoundException("Product not found: " + sku));
+
+        product.setStockQuantity(product.getStockQuantity() + quantity);
+        productRepository.save(product);
+    }
 }

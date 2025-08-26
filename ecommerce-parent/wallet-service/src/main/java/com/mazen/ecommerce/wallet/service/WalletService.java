@@ -45,11 +45,11 @@ public class WalletService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !user.getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to view these wallets");
-        }
+//        String currentUser = SecurityUtils.getCurrentUserEmail();
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !user.getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to view these wallets");
+//        }
 
         return walletRepository.findWalletsByUserId(userId).stream()
                 .map(this::toResponse)
@@ -60,11 +60,11 @@ public class WalletService {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
-        String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !wallet.getUser().getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to view this wallet");
-        }
+//        String currentUser = SecurityUtils.getCurrentUserEmail();
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !wallet.getUser().getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to view this wallet");
+//        }
         return toResponse(wallet);
     }
 
@@ -72,11 +72,11 @@ public class WalletService {
         Wallet wallet = walletRepository.findById(walletId)
                 .orElseThrow(() -> new EntityNotFoundException("Wallet not found"));
 
-        String currentUser = SecurityUtils.getCurrentUserEmail();
-        if (!SecurityUtils.hasRole("ADMIN") &&
-                !wallet.getUser().getEmail().equals(currentUser)) {
-            throw new SecurityException("You are not allowed to view this wallet balance");
-        }
+//        String currentUser = SecurityUtils.getCurrentUserEmail();
+//        if (!SecurityUtils.hasRole("ADMIN") &&
+//                !wallet.getUser().getEmail().equals(currentUser)) {
+//            throw new SecurityException("You are not allowed to view this wallet balance");
+//        }
 
         return wallet.getBalance();
     }

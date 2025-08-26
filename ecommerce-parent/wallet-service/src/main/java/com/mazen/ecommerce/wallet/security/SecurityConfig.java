@@ -31,7 +31,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/wallets/**", "/api/transactions/**").hasAnyRole("ADMIN","SELLER","USER")
+//                        .requestMatchers("/api/wallets/**", "/api/transactions/**").hasAnyRole("ADMIN","SELLER","USER") //TODO
+                        .requestMatchers("/api/wallets/**", "/api/transactions/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

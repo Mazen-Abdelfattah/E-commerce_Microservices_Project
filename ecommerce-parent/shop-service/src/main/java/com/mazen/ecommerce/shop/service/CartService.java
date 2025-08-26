@@ -1,5 +1,7 @@
 package com.mazen.ecommerce.shop.service;
 
+import com.mazen.ecommerce.shop.client.InventoryClient;
+import com.mazen.ecommerce.shop.client.dto.ProductResponse;
 import com.mazen.ecommerce.shop.dto.cart.AddToCartRequest;
 import com.mazen.ecommerce.shop.dto.cart.CartItemResponse;
 import com.mazen.ecommerce.shop.dto.cart.CartResponse;
@@ -16,7 +18,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -26,12 +27,18 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
+    private final InventoryClient inventoryClient;
 
     public CartItemResponse addItemToCart(Long userId, AddToCartRequest request) {
 
         Cart cart = getOrCreateCart(userId);
         cart.setCreatedAt(LocalDateTime.now());
+
+        ProductResponse product = inventoryClient.getProductBySku(request.getSku());
+
+        if (product == null) {
+            throw new EntityNotFoundException("Product not found with SKU: " + request.getSku());
+        }
 
         // Check if item already exists in cart
         Optional<CartItem> existingItem = cart.getCartItems().stream()
@@ -47,17 +54,17 @@ public class CartService {
             // Create new cart item with mock product data
             cartItem = CartItem.builder()
                     .cart(cart)
-                    .sku(request.getSku())
-                    .productName(getMockProductName(request.getSku())) // Mock data
+                    .sku(product.getSku())
+                    .productName(product.getName())
                     .quantity(request.getQuantity())
-                    .unitPrice(getMockUnitPrice(request.getSku())) // Mock data
+                    .unitPrice(product.getPrice())
                     .build();
 
             cart.getCartItems().add(cartItem);
         }
 
         cartItem = cartItemRepository.save(cartItem);
-        cart = cartRepository.save(cart); // Update cart timestamp
+        cartRepository.save(cart); // Update cart timestamp
 
         return mapToCartItemResponse(cartItem);
     }
@@ -66,7 +73,6 @@ public class CartService {
         CartItem cartItem = cartItemRepository.findById(itemId)
                 .orElseThrow(() -> new EntityNotFoundException("Cart item not found with id: " + itemId));
 
-        // Verify the item belongs to the user's cart
         if (!cartItem.getCart().getUserId().equals(userId)) {
             throw new IllegalAccessException("Cart item does not belong to user: " + userId);
         }
@@ -178,25 +184,25 @@ public class CartService {
     // ====================== MOCK DATA METHODS ======================
     // TODO: Replace these with Feign client calls to inventory-service
 
-    private String getMockProductName(String sku) {
-        // Mock product names based on SKU
-        Map<String, String> mockProducts = Map.of(
-                "LAPTOP001", "Gaming Laptop Pro",
-                "PHONE001", "Smartphone X",
-                "BOOK001", "Java Programming Guide",
-                "SHOE001", "Running Shoes Elite"
-        );
-        return mockProducts.getOrDefault(sku, "Product " + sku);
-    }
-
-    private BigDecimal getMockUnitPrice(String sku) {
-        // Mock prices based on SKU
-        Map<String, BigDecimal> mockPrices = Map.of(
-                "LAPTOP001", new BigDecimal("999.99"),
-                "PHONE001", new BigDecimal("699.99"),
-                "BOOK001", new BigDecimal("29.99"),
-                "SHOE001", new BigDecimal("89.99")
-        );
-        return mockPrices.getOrDefault(sku, new BigDecimal("19.99"));
-    }
+//    private String getMockProductName(String sku) {
+//        // Mock product names based on SKU
+//        Map<String, String> mockProducts = Map.of(
+//                "LAPTOP001", "Gaming Laptop Pro",
+//                "PHONE001", "Smartphone X",
+//                "BOOK001", "Java Programming Guide",
+//                "SHOE001", "Running Shoes Elite"
+//        );
+//        return mockProducts.getOrDefault(sku, "Product " + sku);
+//    }
+//
+//    private BigDecimal getMockUnitPrice(String sku) {
+//        // Mock prices based on SKU
+//        Map<String, BigDecimal> mockPrices = Map.of(
+//                "LAPTOP001", new BigDecimal("999.99"),
+//                "PHONE001", new BigDecimal("699.99"),
+//                "BOOK001", new BigDecimal("29.99"),
+//                "SHOE001", new BigDecimal("89.99")
+//        );
+//        return mockPrices.getOrDefault(sku, new BigDecimal("19.99"));
+//    }
 }

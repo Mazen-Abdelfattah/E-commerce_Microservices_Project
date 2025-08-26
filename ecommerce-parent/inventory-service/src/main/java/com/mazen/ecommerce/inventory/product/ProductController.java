@@ -50,4 +50,31 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @GetMapping("/{sku}/stock")
+    public ResponseEntity<Boolean> isInStock(
+            @PathVariable String sku,
+            @RequestParam int quantity
+    ) {
+        return ResponseEntity.ok(productService.isInStock(sku, quantity));
+    }
+
+    @PostMapping("/{sku}/decrease")
+    public ResponseEntity<Void> decreaseStock(
+            @PathVariable String sku,
+            @RequestParam int quantity
+    ) {
+        productService.decreaseStock(sku, quantity);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{sku}/increase")
+    public ResponseEntity<Void> increaseStock(
+            @PathVariable String sku,
+            @RequestParam int quantity
+    ) {
+        productService.increaseStock(sku, quantity);
+        return ResponseEntity.ok().build();
+    }
+
 }

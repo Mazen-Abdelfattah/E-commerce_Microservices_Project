@@ -25,6 +25,7 @@
 		<module>wallet-service</module>
 		<module>inventory-service</module>
 		<module>shop-service</module>
+		<module>eureka-server</module>
 	</modules>
 	<scm>
 		<connection/>
