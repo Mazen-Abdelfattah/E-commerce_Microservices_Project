@@ -26,6 +26,7 @@
 		<module>inventory-service</module>
 		<module>shop-service</module>
 		<module>eureka-server</module>
+		<module>api-gateway</module>
 	</modules>
 	<scm>
 		<connection/>

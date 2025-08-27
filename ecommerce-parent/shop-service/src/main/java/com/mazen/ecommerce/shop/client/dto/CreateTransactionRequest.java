@@ -1,6 +1,5 @@
 package com.mazen.ecommerce.shop.client.dto;
 
-import com.mazen.ecommerce.wallet.model.enums.TransactionType;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
