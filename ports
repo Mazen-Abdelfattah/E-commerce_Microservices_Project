@@ -1,0 +1,11 @@
+- Wallet on 8081/3308
+
+- Inventory on 8082/3309
+
+- Shop on 8083/3310
+
+- API Gateway on 8080
+
+- Eureka on 8761
+
+- config-server on 8888
