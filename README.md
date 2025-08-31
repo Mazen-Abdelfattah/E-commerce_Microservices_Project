@@ -98,50 +98,48 @@ This project demonstrates scalable, fault-tolerant, and secure service-to-servic
 ```bash
 git clone https://github.com/Mazen-Abdelfattah/E-commerce_Microservices_Project.git
 cd E-commerce_Microservices_Project
-
+```
 2. Edit the Configuration
-
 Update the ports in application.properties as needed.
 
 ### 3. (Optional) Run with Docker
-    Download [Docker desktop]((https://www.docker.com/products/docker-desktop/))
-    docker-compose up --build
-
-    - If Docker is not used, ensure MySQL is installed and running locally with the correct schema before starting services.
+Download [Docker desktop]((https://www.docker.com/products/docker-desktop/))
+docker-compose up --build
+- If Docker is not used, ensure MySQL is installed and running locally with the correct schema before starting services.
 
 ### 4. Start Services in Order
 ####Step 1: Start Infrastructure Services
-    ```bash
-  # Start Config Server
-      cd config-server
-      mvn spring-boot:run
+```bash
+# Start Config Server
+cd config-server
+mvn spring-boot:run
 
-  # Start Eureka Server
-    cd eureka-server
-    mvn spring-boot:run
+# Start Eureka Server
+cd eureka-server
+mvn spring-boot:run
 
-  # Start API Gateway
-    cd api-gateway
-    mvn spring-boot:run
-
+# Start API Gateway
+cd api-gateway
+mvn spring-boot:run
+```
 ####Step 2: Start Business Services
-    ```bash
-  # Run Shop Service
-    cd shop-service
-    mvn spring-boot:run
+```bash
+# Run Shop Service
+cd shop-service
+mvn spring-boot:run
 
-  # Run Inventory Service
-    cd inventory-service
-    mvn spring-boot:run
+# Run Inventory Service
+cd inventory-service
+mvn spring-boot:run
 
-  # Run Wallet Service
-    cd wallet-service
-    mvn spring-boot:run
+# Run Wallet Service
+cd wallet-service
+mvn spring-boot:run
 
-  # (Optional) Run Auth Service
-  cd auth-service
-  mvn spring-boot:run
-
+# (Optional) Run Auth Service
+cd auth-service
+mvn spring-boot:run
+```
 ---
 
 ## 📊 API Documentation (Swagger/OpenAPI)
