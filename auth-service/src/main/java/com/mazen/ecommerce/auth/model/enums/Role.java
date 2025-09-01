@@ -1,4 +1,4 @@
-package com.mazen.ecommerce.auth.model;
+package com.mazen.ecommerce.auth.model.enums;
 
 public enum Role {
     USER,

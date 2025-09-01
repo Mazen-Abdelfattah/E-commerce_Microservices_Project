@@ -1,9 +1,11 @@
 1. Making authorization and authentication through API Gateway
 
-2. Remove the comments in TransactionService, WalletService, and SecurityConfig in wallet-service
+2. Remove the comments in TransactionService, WalletService, and SecurityConfig in wallet-service (WHOLE REFACTOR)
 
 3. Make ALL services use token to get the userId instead of sending it
 
 4. Unit/integration tests
 
 5. Global exception handler (nice JSON errors)
+
+6. Make the config-server get the configurations though config-repo instead of local repo
