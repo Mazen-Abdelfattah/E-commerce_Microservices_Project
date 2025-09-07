@@ -1,8 +1,8 @@
 # 🛒 Resilient E-commerce Microservices
 
-[![Java](https://img.shields.io/badge/Java-17-blue?logo=java&logoColor=white)](https://www.oracle.com/java/)  
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)  
-[![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2023.x-green?logo=spring&logoColor=white)](https://spring.io/projects/spring-cloud)  
+[![Java](https://img.shields.io/badge/Java-21-blue?logo=java&logoColor=white)](https://www.oracle.com/java/)  
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.x-brightgreen?logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)  
+[![Spring Cloud](https://img.shields.io/badge/Spring%20Cloud-2025.x-green?logo=spring&logoColor=white)](https://spring.io/projects/spring-cloud)  
 [![MySQL](https://img.shields.io/badge/MySQL-8.x-blue?logo=mysql&logoColor=white)](https://www.mysql.com/)  
 [![Docker](https://img.shields.io/badge/Docker-Containerized-blue?logo=docker&logoColor=white)](https://www.docker.com/)  
 
@@ -77,7 +77,7 @@ This project demonstrates scalable, fault-tolerant, and secure service-to-servic
 ---
 
 ## ⚙️ Prerequisites
-- Java Development Kit (JDK) 17+
+- Java Development Kit (JDK) 21+
 - Apache Maven 3.6+
 - Git
 - (Optional) Docker Desktop
@@ -104,18 +104,17 @@ Update the ports in application.properties as needed.
 
 ### 3. (Optional) Run with Docker
 Download [Docker desktop]((https://www.docker.com/products/docker-desktop/))
-docker-compose up --build
 - If Docker is not used, ensure MySQL is installed and running locally with the correct schema before starting services.
 
 ### 4. Start Services in Order
 #### Step 1: Start Infrastructure Services
 ```bash
-# Start Config Server
-cd config-server
-mvn spring-boot:run
-
 # Start Eureka Server
 cd eureka-server
+mvn spring-boot:run
+
+# Start Config Server
+cd config-server
 mvn spring-boot:run
 
 # Start API Gateway

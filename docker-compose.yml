@@ -43,6 +43,20 @@ services:
     volumes:
       - mysql-shop_data:/var/lib/mysql
 
+  mysql-auth:
+    image: mysql:8-oracle
+    container_name: mysql-auth
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dummypassword
+      MYSQL_USER: auth_user
+      MYSQL_PASSWORD: dummypassword
+      MYSQL_DATABASE: auth_db
+    ports:
+      - "3311:3306"
+    volumes:
+      - mysql-auth_data:/var/lib/mysql
+
 volumes:
   mysql-wallet_data:
   mysql-inventory_data:

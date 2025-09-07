@@ -4,6 +4,8 @@
 
 - Shop on 8083/3310
 
+- Auth on 8084/3311
+
 - API Gateway on 8080
 
 - Eureka on 8761
