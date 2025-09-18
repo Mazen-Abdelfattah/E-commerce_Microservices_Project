@@ -61,3 +61,4 @@ volumes:
   mysql-wallet_data:
   mysql-inventory_data:
   mysql-shop_data:
+  mysql-auth_data:

@@ -1,15 +1,73 @@
 package com.mazen.ecommerce.gateway.config;
 
+import com.mazen.ecommerce.gateway.filter.JwtValidationFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 //@LoadBalancerClient(name = "wallet-service")
 //@LoadBalancerClient(name = "shop-service")
 //@LoadBalancerClient(name = "inventory-service")
 public class GatewayConfig {
+
+    @Bean
+    public WebClient.Builder webClientBuilder() {
+        return WebClient.builder();
+    }
+
+
+    // Post-auth version
+    @Bean
+    public RouteLocator customRouteLocator(RouteLocatorBuilder builder, JwtValidationFilter jwtFilter) {
+        return builder.routes()
+                // Auth Service Routes (NO JWT validation needed)
+                .route("auth-service", r -> r
+                        .path("/api/auth/**", "/api/internal/**")
+                        .uri("lb://AUTH-SERVICE"))
+
+                // Protected Routes (WITH JWT validation)
+                .route("wallet-service", r -> r
+                        .path("/api/wallets/**")
+                        .filters(f -> f.filter(jwtFilter.apply(new JwtValidationFilter.Config())))
+                        .uri("lb://WALLET-SERVICE"))
+
+                .route("shop-service", r -> r
+                        .path("/api/users/**")
+                        .filters(f -> f.filter(jwtFilter.apply(new JwtValidationFilter.Config())))
+                        .uri("lb://SHOP-SERVICE"))
+
+                .route("inventory-service", r -> r
+                        .path("/api/inventory/**")
+                        .filters(f -> f.filter(jwtFilter.apply(new JwtValidationFilter.Config())))
+                        .uri("lb://INVENTORY-SERVICE"))
+
+                .build();
+    }
+
+    // The OLD version that was being used pre-auth
+//    @Bean
+//    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+//        return builder.routes()
+//                // Wallet Service Routes with Load Balancing
+//                .route("wallet-service", r -> r
+//                        .path("/api/wallets/**")
+//                        .uri("lb://WALLET-SERVICE"))
+//
+//                // Shop Service Routes with Load Balancing
+//                .route("shop-service", r -> r
+//                        .path("/api/users/**")
+//                        .uri("lb://SHOP-SERVICE"))
+//
+//                // Inventory Service Routes with Load Balancing
+//                .route("inventory-service", r -> r
+//                        .path("/api/inventory/**")
+//                        .uri("lb://INVENTORY-SERVICE"))
+//
+//                .build();
+//    }
 
 //    @Bean
 //    public RouteLocator customRoutes(RouteLocatorBuilder builder) {
@@ -37,24 +95,4 @@ public class GatewayConfig {
 //                        .uri("lb://eureka-server"))
 //                .build();
 //    }
-    @Bean
-    public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
-        return builder.routes()
-                // Wallet Service Routes with Load Balancing
-                .route("wallet-service", r -> r
-                        .path("/api/wallets/**")
-                        .uri("lb://WALLET-SERVICE"))
-
-                // Shop Service Routes with Load Balancing
-                .route("shop-service", r -> r
-                        .path("/api/users/**")
-                        .uri("lb://SHOP-SERVICE"))
-
-                // Inventory Service Routes with Load Balancing
-                .route("inventory-service", r -> r
-                        .path("/api/inventory/**")
-                        .uri("lb://INVENTORY-SERVICE"))
-
-                .build();
-    }
 }
